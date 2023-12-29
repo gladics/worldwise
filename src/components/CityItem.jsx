@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styles from "./CityItem.module.css";
 import PropTypes from "prop-types";
 
@@ -22,13 +23,18 @@ const flagemojiToPNG = (flag) => {
 };
 
 function CityItem({ city }) {
-  const { cityName, emoji, date } = city;
+  const { cityName, emoji, date, id, position } = city;
   return (
-    <li className={styles.cityItem}>
-      <span className={styles.emoji}>{flagemojiToPNG(emoji)}</span>
-      <h3 className={styles.name}>{cityName}</h3>
-      <span className={styles.date}>({formatDate(date)})</span>
-      <button className={styles.deleteBtn}>&times;</button>
+    <li>
+      <Link
+        className={styles.cityItem}
+        to={`${id}?lat=${position.lat}&lng=${position.lng}`}
+      >
+        <span className={styles.emoji}>{flagemojiToPNG(emoji)}</span>
+        <h3 className={styles.name}>{cityName}</h3>
+        <span className={styles.date}>({formatDate(date)})</span>
+        <button className={styles.deleteBtn}>&times;</button>
+      </Link>
     </li>
   );
 }
