@@ -1,8 +1,10 @@
 import styles from "./City.module.css";
 
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useCities } from "../contexts/CitiesContext";
 import { useEffect } from "react";
+import Spinner from "./Spinner";
+import Button from "./Button";
 
 const formatDate = (date) =>
   new Intl.DateTimeFormat("en", {
@@ -23,14 +25,17 @@ const flagemojiToPNG = (flag) => {
 
 function City() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
-  const { getCity, currentCity } = useCities();
+  const { getCity, currentCity, isLoading } = useCities();
 
   useEffect(() => {
     getCity(id);
   }, [id]);
 
   const { emoji, cityName, date, notes } = currentCity;
+
+  if (isLoading) return <Spinner />;
 
   return (
     <div className={styles.city}>
@@ -62,6 +67,17 @@ function City() {
         >
           Check out {cityName} on Wikipedia &rarr;
         </a>
+      </div>
+      <div className={styles.buttons}>
+        <Button
+          type="back"
+          onClick={(e) => {
+            e.preventDefault();
+            navigate(-1);
+          }}
+        >
+          &larr; Back
+        </Button>
       </div>
     </div>
   );
