@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import styles from "./CityItem.module.css";
 import PropTypes from "prop-types";
 import { useCities } from "../contexts/CitiesContext";
+import flagEmojiToPNG from "../utils/FlagEmojiToPNG";
 
 CityItem.propTypes = {
   city: PropTypes.any.isRequired,
@@ -14,15 +15,6 @@ const formatDate = (date) =>
     year: "numeric",
   }).format(new Date(date));
 
-const flagemojiToPNG = (flag) => {
-  var countryCode = Array.from(flag, (codeUnit) => codeUnit.codePointAt())
-    .map((char) => String.fromCharCode(char - 127397).toLowerCase())
-    .join("");
-  return (
-    <img src={`https://flagcdn.com/24x18/${countryCode}.png`} alt="flag" />
-  );
-};
-
 function CityItem({ city }) {
   const { currentCity } = useCities();
   const { cityName, emoji, date, id, position } = city;
@@ -34,7 +26,7 @@ function CityItem({ city }) {
         }`}
         to={`${id}?lat=${position.lat}&lng=${position.lng}`}
       >
-        <span className={styles.emoji}>{flagemojiToPNG(emoji)}</span>
+        <span className={styles.emoji}>{flagEmojiToPNG(emoji)}</span>
         <h3 className={styles.name}>{cityName}</h3>
         <span className={styles.date}>({formatDate(date)})</span>
         <button className={styles.deleteBtn}>&times;</button>
