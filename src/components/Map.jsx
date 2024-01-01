@@ -10,12 +10,13 @@ import {
 } from "react-leaflet";
 import { useState } from "react";
 import flagEmojiToPNG from "../utils/FlagEmojiToPNG";
-import { useNavigate, useSearchParams } from "react-router-dom";
 
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { useGeolocation } from "../hooks/useGeolocations";
 import Button from "./Button";
+import { useUrlPosition } from "../hooks/useUrlPosition";
+import { useNavigate } from "react-router-dom";
 
 ChangeCenter.propTypes = {
   position: PropTypes.any.isRequired,
@@ -24,15 +25,13 @@ ChangeCenter.propTypes = {
 function Map() {
   const [position, setPosition] = useState([40, 0]);
   const { cities } = useCities();
-  const [searchParams] = useSearchParams();
   const {
     isLoading: isLoadingPosition,
     position: geoLocationPosition,
     getPosition,
   } = useGeolocation();
 
-  const lat = searchParams.get("lat");
-  const lng = searchParams.get("lng");
+  const [lat, lng] = useUrlPosition();
 
   useEffect(() => {
     if (lat && lng) setPosition([lat, lng]);
