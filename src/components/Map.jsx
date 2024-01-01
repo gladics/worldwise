@@ -14,6 +14,8 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 import PropTypes from "prop-types";
 import { useEffect } from "react";
+import { useGeolocation } from "../hooks/useGeolocations";
+import Button from "./Button";
 
 ChangeCenter.propTypes = {
   position: PropTypes.any.isRequired,
@@ -23,6 +25,11 @@ function Map() {
   const [position, setPosition] = useState([40, 0]);
   const { cities } = useCities();
   const [searchParams] = useSearchParams();
+  const {
+    isLoading: isLoadingPosition,
+    position: geoLocationPosition,
+    getPosition,
+  } = useGeolocation();
 
   const lat = searchParams.get("lat");
   const lng = searchParams.get("lng");
@@ -31,8 +38,18 @@ function Map() {
     if (lat && lng) setPosition([lat, lng]);
   }, [lat, lng]);
 
+  useEffect(() => {
+    if (geoLocationPosition)
+      setPosition([geoLocationPosition.lat, geoLocationPosition.lng]);
+  }, [geoLocationPosition]);
+
   return (
     <div className={styles.mapContainer}>
+      {!geoLocationPosition && (
+        <Button type="position" onClick={getPosition}>
+          {isLoadingPosition ? "Loading..." : "Use your position"}
+        </Button>
+      )}
       <MapContainer
         center={position}
         zoom={8}
