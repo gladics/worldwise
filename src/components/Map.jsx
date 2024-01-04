@@ -23,7 +23,7 @@ ChangeCenter.propTypes = {
 };
 
 function Map() {
-  const [position, setPosition] = useState([40, 0]);
+  const [position, setPosition] = useState([46.19, 18.72]);
   const { cities } = useCities();
   const {
     isLoading: isLoadingPosition,
