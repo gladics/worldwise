@@ -12,8 +12,8 @@ export default function Login() {
   const [password, setPassword] = useState("qwerty");
 
   useEffect(() => {
-    if (isAuthenticated === true) navigate("/app");
-  }, [isAuthenticated]);
+    if (isAuthenticated === true) navigate("/app", { replace: true }); // with the replace: true, it is possible to go back with browser back
+  }, [isAuthenticated, navigate]);
 
   function loginHandler(e) {
     e.preventDefault();
@@ -45,7 +45,9 @@ export default function Login() {
         </div>
 
         <div>
-          <button onClick={loginHandler}>Login</button>
+          <button type="primary" onClick={loginHandler}>
+            Login
+          </button>
         </div>
       </form>
     </main>
