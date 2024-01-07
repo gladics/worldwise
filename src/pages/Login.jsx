@@ -3,6 +3,7 @@ import PageNav from "../components/PageNav";
 import { useAuth } from "../contexts/FakeAuthContext";
 import styles from "./Login.module.css";
 import { useEffect, useState } from "react";
+import Button from "../components/Button";
 
 export default function Login() {
   const { isAuthenticated, login } = useAuth();
@@ -21,7 +22,7 @@ export default function Login() {
   }
 
   return (
-    <main className={styles.login}>
+    <main className={styles.login} onSubmit={loginHandler}>
       <PageNav />
       <form className={styles.form}>
         <div className={styles.row}>
@@ -45,9 +46,7 @@ export default function Login() {
         </div>
 
         <div>
-          <button type="primary" onClick={loginHandler}>
-            Login
-          </button>
+          <Button type="primary">Login</Button>
         </div>
       </form>
     </main>
