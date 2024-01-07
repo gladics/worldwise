@@ -3,6 +3,7 @@ import PageNav from "../components/PageNav";
 import { useAuth } from "../contexts/FakeAuthContext";
 import styles from "./Login.module.css";
 import { useEffect, useState } from "react";
+import Button from "../components/Button";
 
 export default function Login() {
   const { isAuthenticated, login } = useAuth();
@@ -12,8 +13,8 @@ export default function Login() {
   const [password, setPassword] = useState("qwerty");
 
   useEffect(() => {
-    if (isAuthenticated === true) navigate("/app");
-  }, [isAuthenticated]);
+    if (isAuthenticated === true) navigate("/app", { replace: true }); // with the replace: true, it is possible to go back with browser back
+  }, [isAuthenticated, navigate]);
 
   function loginHandler(e) {
     e.preventDefault();
@@ -21,7 +22,7 @@ export default function Login() {
   }
 
   return (
-    <main className={styles.login}>
+    <main className={styles.login} onSubmit={loginHandler}>
       <PageNav />
       <form className={styles.form}>
         <div className={styles.row}>
@@ -45,7 +46,7 @@ export default function Login() {
         </div>
 
         <div>
-          <button onClick={loginHandler}>Login</button>
+          <Button type="primary">Login</Button>
         </div>
       </form>
     </main>
